@@ -5,9 +5,9 @@ import { Button } from "../../shadcn/button";
 const buttonLinks = [
   { link: "/volunteers", label: "Volunteers" },
   { link: "/users", label: "Parishioners" },
-  { link: "/categories", label: "Categories" },
-  { link: "#", label: "Mass Intentions" },
-  { link: "#", label: "Facilities" },
+  // { link: "/categories", label: "Categories" },
+  // { link: "#", label: "Mass Intentions" },
+  // { link: "#", label: "Facilities" },
 ];
 
 export default function RequestPage({ children }) {

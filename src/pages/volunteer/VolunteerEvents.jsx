@@ -858,14 +858,14 @@ export default function EventPage() {
             </form>
           </DialogContent>
         </Dialog>
-        <Button
+        {/* <Button
           onClick={() => {
             console.log("Navigating to Volunteer Main Calendar...");
             setIsEventsModalOpen(true);
           }}
         >
           Overview
-        </Button>
+        </Button> */}
         {/* <CreateMeeting />
             <CreatePoll /> */}
       </div>

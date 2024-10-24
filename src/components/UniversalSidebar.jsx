@@ -33,8 +33,8 @@ export default function UniversalSidebar({ children }) {
       { link: "/attendance", label: "Attendance", icon: CheckListIcon },
       { link: "/groups", label: "Groups", icon: PersonIcon },
       { link: "/event", label: "Schedule", icon: CalendarIcon },
-      { link: "/admin-rotas", label: "Rotas", icon: PersonIcon },
-      { link: "/admin-calendar", label: "Calendar", icon: CalendarIcon },
+      // { link: "/admin-rotas", label: "Rotas", icon: PersonIcon },
+      // { link: "/admin-calendar", label: "Calendar", icon: CalendarIcon },
       { link: "/volunteers", label: "Request(s)", icon: RequestIcon },
     ],
     volunteer: [
@@ -43,7 +43,7 @@ export default function UniversalSidebar({ children }) {
         label: "Announcements",
         icon: CalendarIcon,
       },
-      { link: "/volunteer-dashboard", label: "Dashboard", icon: CalendarIcon },
+      // { link: "/volunteer-dashboard", label: "Dashboard", icon: CalendarIcon },
       {
         link: "/volunteer-schedule",
         label: "Volunteer Events",
@@ -54,10 +54,10 @@ export default function UniversalSidebar({ children }) {
         label: "Rota Management",
         icon: CalendarIcon,
       },
-      { link: "/volunteer-upload", label: "Upload", icon: CalendarIcon },
-      { link: "/volunteer-profile", label: "Profile", icon: CalendarIcon },
-      { link: "/volunteer-classes", label: "Classes", icon: BlackBoardIcon },
-      { link: "/volunteer-requests", label: "Requests", icon: RequestIcon },
+      // { link: "/volunteer-upload", label: "Upload", icon: CalendarIcon },
+      // { link: "/volunteer-profile", label: "Profile", icon: CalendarIcon },
+      // { link: "/volunteer-classes", label: "Classes", icon: BlackBoardIcon },
+      // { link: "/volunteer-requests", label: "Requests", icon: RequestIcon },
     ],
     user: [
       {
@@ -67,8 +67,8 @@ export default function UniversalSidebar({ children }) {
       },
       { link: "/events-page", label: "Events", icon: CalendarIcon },
       { link: "/family", label: "Family", icon: FamilyIcon },
-      { link: "#", label: "Classes", icon: BlackBoardIcon },
-      { link: "/parishioner-request", label: "Request", icon: RequestIcon },
+      // { link: "#", label: "Classes", icon: BlackBoardIcon },
+      // { link: "/parishioner-request", label: "Request", icon: RequestIcon },
     ],
   };
 

@@ -812,7 +812,7 @@ export default function EventPage() {
             </form>
           </DialogContent>
         </Dialog>
-        <Button onClick={handleNavigation}>Overview</Button>
+        {/* <Button onClick={handleNavigation}>Overview</Button> */}
 
         {/* <CreateMeeting />
             <CreatePoll /> */}

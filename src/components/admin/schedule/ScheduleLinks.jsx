@@ -4,8 +4,8 @@ import { Button } from "../../../shadcn/button";
 
 const buttonLinks = [
   { link: "/event", label: "Event" },
-  { link: "/meeting", label: "Meeting" },
-  { link: "#", label: "Poll" },
+  // { link: "/meeting", label: "Meeting" },
+  // { link: "#", label: "Poll" },
 ];
 
 export default function ScheduleLinks({ children }) {
