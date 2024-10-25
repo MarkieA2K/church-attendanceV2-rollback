@@ -1,4 +1,9 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  useLocation,
+} from "react-router-dom";
 import ProtectedRoute from "./authentication/ProtectedRoute";
 import Home from "./pages/Home";
 import AdminDashboard from "./pages/admin/AdminDashboard";
@@ -36,236 +41,250 @@ import { useContext } from "react";
 import { UserContext } from "./context/UserContext"; // Adjust the import path as necessary
 import UniversalSidebar from "./components/UniversalSidebar"; // Adjust the import path as necessary
 
-function App() {
+function AppContent() {
   const { userRole } = useContext(UserContext); // Get user role from context
+  const location = useLocation(); // Get the current path
+  const shouldShowSidebar = location.pathname !== "/";
 
   return (
-    <Router>
+    <>
       <Toaster />
-      <UniversalSidebar userRole={userRole}>
-        {" "}
-        {/* Pass userRole to UniversalSidebar */}
+      {shouldShowSidebar ? (
+        <UniversalSidebar userRole={userRole}>
+          <Routes>
+            {/* Add all your routes here */}
+            <Route
+              path="/admin-dashboard"
+              element={
+                <ProtectedRoute>
+                  <AdminDashboard />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/attendance"
+              element={
+                <ProtectedRoute>
+                  <Attendance />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin-rotas"
+              element={
+                <ProtectedRoute>
+                  <AdminRotas />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/users"
+              element={
+                <ProtectedRoute>
+                  <UsersPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/parishioner-request"
+              element={
+                <ProtectedRoute>
+                  <ParishionerRequest />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/volunteers"
+              element={
+                <ProtectedRoute>
+                  <VolunteersPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/groups"
+              element={
+                <ProtectedRoute>
+                  <GroupsPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/event"
+              element={
+                <ProtectedRoute>
+                  <EventPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/meeting"
+              element={
+                <ProtectedRoute>
+                  <MeetingPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/volunteer-meeting"
+              element={
+                <ProtectedRoute>
+                  <VolunteerMeetingPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin-calendar"
+              element={
+                <ProtectedRoute>
+                  <AdminCalendar />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/categories"
+              element={
+                <ProtectedRoute>
+                  <CategoryPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/events-page"
+              element={
+                <ProtectedRoute>
+                  <EventsPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/event-info/:eventId"
+              element={
+                <ProtectedRoute>
+                  <EventInfo />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/user-announcements"
+              element={
+                <ProtectedRoute>
+                  <UserAnnouncements />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/family"
+              element={
+                <ProtectedRoute>
+                  <FamilyPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/volunteer-dashboard"
+              element={
+                <ProtectedRoute>
+                  <VolunteerDashboard />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/volunteer-schedule"
+              element={
+                <ProtectedRoute>
+                  <VolunteerEvents />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/volunteer-announcements"
+              element={
+                <ProtectedRoute>
+                  <VolunteerAnnouncements />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/volunteer-announcements-info/:postId"
+              element={
+                <ProtectedRoute>
+                  <VolunteerAnnouncementsInfo />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/user-announcements-info/:postId"
+              element={
+                <ProtectedRoute>
+                  <UserAnnouncementsInfo />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/volunteer-duties"
+              element={
+                <ProtectedRoute>
+                  <VolunteerDuties />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/volunteer-profile"
+              element={
+                <ProtectedRoute>
+                  <VolunteerProfile />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/volunteer-main-calendar"
+              element={
+                <ProtectedRoute>
+                  <VolunteerMainCalendar />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/volunteer-classes"
+              element={
+                <ProtectedRoute>
+                  <VolunteerClasses />
+                </ProtectedRoute>
+              }
+            />
+            <Route path="/volunteer-classes/:id" element={<VolunteerClass />} />
+            <Route
+              path="/volunteer-upload"
+              element={
+                <ProtectedRoute>
+                  <VolunteerUpload />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/volunteer-requests"
+              element={
+                <ProtectedRoute>
+                  <VolunteerRequests />
+                </ProtectedRoute>
+              }
+            />
+          </Routes>
+        </UniversalSidebar>
+      ) : (
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route
-            path="/admin-dashboard"
-            element={
-              <ProtectedRoute>
-                <AdminDashboard />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/attendance"
-            element={
-              <ProtectedRoute>
-                <Attendance />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/admin-rotas"
-            element={
-              <ProtectedRoute>
-                <AdminRotas />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/users"
-            element={
-              <ProtectedRoute>
-                <UsersPage />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/parishioner-request"
-            element={
-              <ProtectedRoute>
-                <ParishionerRequest />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/volunteers"
-            element={
-              <ProtectedRoute>
-                <VolunteersPage />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/groups"
-            element={
-              <ProtectedRoute>
-                <GroupsPage />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/event"
-            element={
-              <ProtectedRoute>
-                <EventPage />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/meeting"
-            element={
-              <ProtectedRoute>
-                <MeetingPage />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/volunteer-meeting"
-            element={
-              <ProtectedRoute>
-                <VolunteerMeetingPage />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/admin-calendar"
-            element={
-              <ProtectedRoute>
-                <AdminCalendar />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/categories"
-            element={
-              <ProtectedRoute>
-                <CategoryPage />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/events-page"
-            element={
-              <ProtectedRoute>
-                <EventsPage />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/event-info/:eventId"
-            element={
-              <ProtectedRoute>
-                <EventInfo />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/user-announcements"
-            element={
-              <ProtectedRoute>
-                <UserAnnouncements />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/family"
-            element={
-              <ProtectedRoute>
-                <FamilyPage />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/volunteer-dashboard"
-            element={
-              <ProtectedRoute>
-                <VolunteerDashboard />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/volunteer-schedule"
-            element={
-              <ProtectedRoute>
-                <VolunteerEvents />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/volunteer-announcements"
-            element={
-              <ProtectedRoute>
-                <VolunteerAnnouncements />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/volunteer-announcements-info/:postId"
-            element={
-              <ProtectedRoute>
-                <VolunteerAnnouncementsInfo />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/user-announcements-info/:postId"
-            element={
-              <ProtectedRoute>
-                <UserAnnouncementsInfo />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/volunteer-duties"
-            element={
-              <ProtectedRoute>
-                <VolunteerDuties />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/volunteer-profile"
-            element={
-              <ProtectedRoute>
-                <VolunteerProfile />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/volunteer-main-calendar"
-            element={
-              <ProtectedRoute>
-                <VolunteerMainCalendar />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/volunteer-classes"
-            element={
-              <ProtectedRoute>
-                <VolunteerClasses />
-              </ProtectedRoute>
-            }
-          />
-          <Route path="/volunteer-classes/:id" element={<VolunteerClass />} />
-          <Route
-            path="/volunteer-upload"
-            element={
-              <ProtectedRoute>
-                <VolunteerUpload />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/volunteer-requests"
-            element={
-              <ProtectedRoute>
-                <VolunteerRequests />
-              </ProtectedRoute>
-            }
-          />
         </Routes>
-      </UniversalSidebar>
+      )}
+    </>
+  );
+}
+
+function App() {
+  return (
+    <Router>
+      <AppContent />
     </Router>
   );
 }
