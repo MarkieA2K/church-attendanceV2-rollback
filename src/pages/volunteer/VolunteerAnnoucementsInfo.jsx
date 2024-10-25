@@ -165,54 +165,54 @@ export default function VolunteerAnnouncementsInfo() {
 
   if (loading || userLoading) {
     return (
-      <VolunteerSidebar>
-        <main className="flex justify-center">
-          <Spinner />
-        </main>
-      </VolunteerSidebar>
+      // <VolunteerSidebar>
+      <main className="flex justify-center">
+        <Spinner />
+      </main>
+      // </VolunteerSidebar>
     );
   }
 
   if (error) {
     return (
-      <VolunteerSidebar>
-        <main className="flex flex-col items-center justify-center">
-          <p className="mb-4 text-red-500">{error}</p>
-          <Button onClick={handleBack}>Back to Announcements</Button>
-        </main>
-      </VolunteerSidebar>
+      // <VolunteerSidebar>
+      <main className="flex flex-col items-center justify-center">
+        <p className="mb-4 text-red-500">{error}</p>
+        <Button onClick={handleBack}>Back to Announcements</Button>
+      </main>
+      // </VolunteerSidebar>
     );
   }
 
   return (
-    <VolunteerSidebar>
-      <main className="flex justify-center">
-        <div className="w-full max-w-2xl space-y-6 p-4 lg:p-8">
-          <Button onClick={handleBack} className="mb-4">
-            Back to Announcements
-          </Button>
+    // <VolunteerSidebar>
+    <main className="flex justify-center">
+      <div className="w-full max-w-2xl space-y-6 p-4 lg:p-8">
+        <Button onClick={handleBack} className="mb-4">
+          Back to Announcements
+        </Button>
 
-          {/* Post Details */}
-          <PostDetails
-            post={post}
-            userData={userData}
-            getInitials={getInitials}
-            handleReaction={handleReaction}
-          />
+        {/* Post Details */}
+        <PostDetails
+          post={post}
+          userData={userData}
+          getInitials={getInitials}
+          handleReaction={handleReaction}
+        />
 
-          {/* Comments Section */}
-          <CommentsSection
-            comments={comments}
-            getInitials={getInitials}
-            newComment={newComment}
-            setNewComment={setNewComment}
-            handleCommentSubmit={handleCommentSubmit}
-            commentError={commentError}
-            successMessage={successMessage}
-            isSubmitting={isSubmitting}
-          />
-        </div>
-      </main>
-    </VolunteerSidebar>
+        {/* Comments Section */}
+        <CommentsSection
+          comments={comments}
+          getInitials={getInitials}
+          newComment={newComment}
+          setNewComment={setNewComment}
+          handleCommentSubmit={handleCommentSubmit}
+          commentError={commentError}
+          successMessage={successMessage}
+          isSubmitting={isSubmitting}
+        />
+      </div>
+    </main>
+    // </VolunteerSidebar>
   );
 }
