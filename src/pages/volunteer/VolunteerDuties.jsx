@@ -2,8 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import supabase from "../../api/supabase";
-// Remove the sidebar import
-// import VolunteerSidebar from "../../components/volunteer/VolunteerSidebar";
+import VolunteerSidebar from "../../components/volunteer/VolunteerSidebar";
 import DutyCard from "../../components/volunteer/duty/DutyCard"; // Import the DutyCard component
 import DutyFormModal from "../../components/volunteer/duty/DutyFormModal"; // Modal component for adding duties
 import EditDutyModal from "../../components/volunteer/duty/EditDutyModal"; // Modal component for editing duties
@@ -78,11 +77,13 @@ const VolunteerDuties = () => {
       const { data, error } = await supabase
         .from("duties_list")
         .select(
-          `*,
+          `
+          *,
           user_assignments (
             user_id,
             user_list (user_name, user_last_name)
-          )`,
+          )
+        `,
         )
         .eq("group_id", userData.group_id); // Fetch only duties for the user's group
 
@@ -95,7 +96,7 @@ const VolunteerDuties = () => {
           ? duty.user_assignments.map((assignment) => ({
               user_id: assignment.user_id,
               user_name: assignment.user_list.user_name,
-              user_last_name: assignment.user_list.user_last_name,
+              user_last_name: assignment.user_list.user_lasts_name,
             }))
           : [],
       }));
@@ -228,26 +229,27 @@ const VolunteerDuties = () => {
   // Handle opening the Assign Users modal
   const handleOpenAssignModal = (duty) => {
     setCurrentDuty(duty);
-    fetchUsers(duty.duties_id); // Fetch users for the selected duty
+    fetchUsers(duty.duties_id); // Fetch users while considering current duty assignments
     setIsAssignUsersModalOpen(true);
   };
 
-  // Handle assigning users to a duty
-  const handleAssignUsers = async (userIds) => {
+  // Function to assign users to the current duty
+  const assignUsersToDuty = async (selectedUsers) => {
     try {
-      const assignments = userIds.map((userId) => ({
-        duties_id: currentDuty.duties_id,
-        user_id: userId,
-      }));
+      if (!currentDuty || selectedUsers.length === 0) return; // Ensure duty and users are selected
 
-      const { error } = await supabase
-        .from("user_assignments")
-        .insert(assignments);
+      // Insert assignments into user_assignments
+      const { error } = await supabase.from("user_assignments").insert(
+        selectedUsers.map((userId) => ({
+          duties_id: currentDuty.duties_id, // ID of the duty to which users are assigned
+          user_id: userId, // ID of the user being assigned
+        })),
+      );
 
       if (error) throw error;
 
       console.log("Users assigned successfully");
-      fetchDuties(); // Refresh the duties list after assigning users
+      fetchDuties(); // Refresh the duties list after assignment
     } catch (error) {
       console.error("Error assigning users:", error.message);
     } finally {
@@ -256,37 +258,64 @@ const VolunteerDuties = () => {
     }
   };
 
-  // Handle opening the Overview modal
-  const handleOpenOverviewModal = (duty) => {
-    setSelectedDuty(duty);
-    setIsOverviewModalOpen(true);
-  };
-
   return (
-    <div className="p-4">
-      <h1 className="mb-4 text-2xl font-bold">Volunteer Duties</h1>
-      <Button onClick={() => setIsAddModalOpen(true)}>Add Duty</Button>
-      <div className="mt-4 grid grid-cols-1 gap-4">
-        {loading ? (
-          <p>Loading duties...</p>
-        ) : (
-          duties.map((duty) => (
-            <DutyCard
-              key={duty.duties_id}
-              duty={duty}
-              onEdit={() => handleOpenEditModal(duty)}
-              onDelete={() => handleOpenDeleteModal(duty)}
-              onAssignUsers={() => handleOpenAssignModal(duty)}
-              onOpenOverview={() => handleOpenOverviewModal(duty)}
-            />
-          ))
-        )}
-      </div>
+    // <VolunteerSidebar>
+    <div>
+      <main className="mx-auto max-w-7xl p-4 lg:p-8">
+        {/* Header Section */}
+        <div className="mb-6 flex items-center justify-between">
+          <h1 className="text-3xl font-bold">Rota Management</h1>
+          <div className="flex items-center space-x-2">
+            {" "}
+            {/* Added a flex container for buttons */}
+            <Button
+              onClick={() => setIsAddModalOpen(true)} // Open Add Duty modal
+              className="rounded bg-blue-600 px-4 py-2 text-white hover:bg-blue-700"
+            >
+              Add Rota
+            </Button>
+            <Button
+              onClick={() => setIsOverviewModalOpen(true)} // Correctly passing a function
+              className="rounded bg-green-600 px-4 py-2 text-white hover:bg-green-700"
+            >
+              Overview
+            </Button>
+          </div>
+        </div>
 
-      {/* Duty Form Modal */}
+        {/* Duty Cards Layout */}
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {loading ? (
+            // Loading Spinner
+            <div className="p-8 text-center">
+              <div className="mx-auto h-8 w-8 animate-spin rounded-full border-b-2 border-primary"></div>
+              <p className="mt-4 text-muted-foreground">Loading duties...</p>
+            </div>
+          ) : duties.length > 0 ? (
+            // Render DutyCards with edit, delete, and assign handlers
+            duties.map((duty) => (
+              <DutyCard
+                key={duty.duties_id}
+                duty={duty}
+                onEditDuty={handleOpenEditModal} // Pass edit handler
+                onDeleteDuty={handleOpenDeleteModal} // Pass delete handler
+                onAssignUsers={() => handleOpenAssignModal(duty)} // Pass assign handler
+                onRemoveUser={handleRemoveUser} // Pass the remove user function
+              />
+            ))
+          ) : (
+            // No Duties Found
+            <div className="p-8 text-center">
+              <p>No duties found.</p>
+            </div>
+          )}
+        </div>
+      </main>
+
+      {/* Add Duty Modal */}
       <DutyFormModal
         isOpen={isAddModalOpen}
-        onClose={() => setIsAddModalOpen(false)}
+        onRequestClose={() => setIsAddModalOpen(false)}
         onSubmit={handleAddDuty}
       />
 
@@ -294,7 +323,7 @@ const VolunteerDuties = () => {
       {selectedDuty && (
         <EditDutyModal
           isOpen={isEditModalOpen}
-          onClose={() => setIsEditModalOpen(false)}
+          onRequestClose={() => setIsEditModalOpen(false)}
           onSubmit={handleEditDuty}
           duty={selectedDuty}
         />
@@ -304,8 +333,9 @@ const VolunteerDuties = () => {
       {selectedDuty && (
         <DeleteDutyModal
           isOpen={isDeleteModalOpen}
-          onClose={() => setIsDeleteModalOpen(false)}
+          onRequestClose={() => setIsDeleteModalOpen(false)}
           onConfirm={handleDeleteDuty}
+          duty={selectedDuty}
         />
       )}
 
@@ -313,22 +343,20 @@ const VolunteerDuties = () => {
       {currentDuty && (
         <AssignUsersModal
           isOpen={isAssignUsersModalOpen}
-          onClose={() => setIsAssignUsersModalOpen(false)}
-          onAssign={handleAssignUsers}
-          users={users}
+          onRequestClose={() => setIsAssignUsersModalOpen(false)}
+          onAssign={assignUsersToDuty} // Pass the assign function
+          onRemoveUser={handleRemoveUser} // Unassign users
+          duty={currentDuty}
+          users={users} // Pass the fetched users to the modal
         />
       )}
-
-      {/* Overview Modal */}
-      {selectedDuty && (
-        <OverviewModal
-          isOpen={isOverviewModalOpen}
-          onClose={() => setIsOverviewModalOpen(false)}
-          duty={selectedDuty}
-          onRemoveUser={handleRemoveUser}
-        />
-      )}
+      <OverviewModal
+        isOpen={isOverviewModalOpen}
+        onRequestClose={() => setIsOverviewModalOpen(false)}
+        duties={duties} // Pass the loaded duties
+      />
     </div>
+    // </VolunteerSidebar>
   );
 };
 
