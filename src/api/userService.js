@@ -418,6 +418,7 @@ export async function insertFamilyAttendee(
   selected_event_date,
   selected_time,
   attendee,
+  attendance_code,
 ) {
   try {
     const { error: dataError } = await supabase.from("new_attendance").insert(
@@ -432,6 +433,7 @@ export async function insertFamilyAttendee(
         selected_event_date: selected_event_date,
         selected_time: selected_time,
         attendance_type: "family",
+        attendance_code: attendance_code,
       })),
     );
 
@@ -439,5 +441,25 @@ export async function insertFamilyAttendee(
   } catch (error) {
     console.error("Error inserting attendance:", error.message);
     return { error: error.message };
+  }
+}
+
+// fetch attendance
+// Fetch attendance data based on the attendance code
+export async function userAttendance(attendanceCode) {
+  try {
+    // Make sure you're querying the correct column for attendance code
+    const { data, error } = await supabase
+      .from("new_attendance")
+      .select("*")
+      .eq("attendance_code", attendanceCode) 
+      .order("id", { ascending: false });
+
+    if (error) throw error;
+
+    return { data, error: null }; 
+  } catch (error) {
+    console.error("Error fetching attendance:", error.message);
+    return { data: [], error: "Failed to load attendance." }; 
   }
 }

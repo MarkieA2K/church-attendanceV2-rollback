@@ -7,6 +7,8 @@ import churchBg from "../assets/images/church-background.webp";
 import churchIcon from "../assets/svg/churchIcon.svg";
 import CarouselEvents from "../components/CarouselEvents";
 import NewAttendanceRegister from "../components/admin/Attendance/NewAttendanceRegister";
+import Registrationv1 from "./registration/Registrationv1";
+import EditRegistrationv1 from "./registration/EditRegistrationv1";
 
 export default function Home() {
   return (
@@ -20,8 +22,10 @@ export default function Home() {
             <div className="grid grid-cols-2 gap-2 p-2 sm:grid-cols-4">
               <Login />
               <RegisterUser />
-              <NewAttendanceRegister BtnName="Walk-In Register"/>
-              <EditWalkInRegister />
+              <Registrationv1 />
+              <EditRegistrationv1 />
+              {/* <NewAttendanceRegister BtnName="Walk-In Register"/> */}
+              {/* <EditWalkInRegister /> */}
               {/* <BtnSelectRegistration /> */}
               {/* <DialogWalkInRegister btnName="Walk-In Register" title="Register" description="Fill up the forms for one-time registration" btnSubmit="Submit" /> */}
               {/* <DialogWalkInRegister btnName="Walk-In Register" title="Register" description="Fill up the forms for one-time registration" btnSubmit="Submit" /> */}
