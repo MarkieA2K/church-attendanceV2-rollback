@@ -42,7 +42,7 @@ import { UserContext } from "./context/UserContext"; // Adjust the import path a
 import UniversalSidebar from "./components/UniversalSidebar"; // Adjust the import path as necessary
 
 function AppContent() {
-  const { userRole } = useContext(UserContext); // Get user role from context
+  const { userData } = useContext(UserContext); // Get user role from context
   const location = useLocation(); // Get the current path
   const shouldShowSidebar = location.pathname !== "/";
 
@@ -50,7 +50,7 @@ function AppContent() {
     <>
       <Toaster />
       {shouldShowSidebar ? (
-        <UniversalSidebar userRole={userRole}>
+        <UniversalSidebar>
           <Routes>
             {/* Add all your routes here */}
             <Route
