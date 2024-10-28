@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import supabase from "../../api/supabase";
-import UserSidebar from "../../components/user/UserSidebar";
+// import UserSidebar from "../../components/user/UserSidebar";
 import { Button } from "../../shadcn/button";
 import Spinner from "../../components/Spinner";
 import { useUser } from "../../authentication/useUser";
@@ -124,27 +124,28 @@ export default function VolunteerAnnouncementsInfo() {
 
   if (loading || userLoading) {
     return (
-      <UserSidebar>
-        <main className="flex justify-center">
-          <Spinner />
-        </main>
-      </UserSidebar>
+      // <UserSidebar>
+      <main className="flex justify-center">
+        <Spinner />
+      </main>
+      // </UserSidebar>
     );
   }
 
   if (error) {
     return (
-      <UserSidebar>
-        <main className="flex flex-col items-center justify-center">
-          <p className="mb-4 text-red-500">{error}</p>
-          <Button onClick={handleBack}>Back to Announcements</Button>
-        </main>
-      </UserSidebar>
+      // <UserSidebar>
+      <main className="flex flex-col items-center justify-center">
+        <p className="mb-4 text-red-500">{error}</p>
+        <Button onClick={handleBack}>Back to Announcements</Button>
+      </main>
+      // </UserSidebar>
     );
   }
 
   return (
-    <UserSidebar>
+    // <UserSidebar>
+    <div>
       <main className="flex justify-center">
         <div className="w-full max-w-2xl space-y-6 p-4 lg:p-8">
           <Button onClick={handleBack} className="mb-4">
@@ -171,6 +172,7 @@ export default function VolunteerAnnouncementsInfo() {
           />
         </div>
       </main>
-    </UserSidebar>
+      {/* </UserSidebar> */}
+    </div>
   );
 }
