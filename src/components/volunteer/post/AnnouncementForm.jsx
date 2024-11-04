@@ -96,7 +96,7 @@ const AnnouncementForm = ({
 
       {/* Privacy option using ShadCN Select */}
       <div className="space-y-2">
-        <Label htmlFor="announcement_privacy">Announcement Privacy</Label>
+        <Label htmlFor="announcement_privacy">Announcement Visibility</Label>
         <Select
           value={newAnnouncement.privacy}
           onValueChange={(value) =>
@@ -104,11 +104,11 @@ const AnnouncementForm = ({
           }
         >
           <SelectTrigger>
-            <SelectValue placeholder="Select privacy" />
+            <SelectValue placeholder="Select visibility" />
           </SelectTrigger>
           <SelectContent>
             <SelectItem value="public">Public</SelectItem>
-            <SelectItem value="private">Private</SelectItem>
+            <SelectItem value="private">Group</SelectItem>
           </SelectContent>
         </Select>
       </div>

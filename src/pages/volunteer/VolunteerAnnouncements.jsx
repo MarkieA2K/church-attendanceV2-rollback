@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import supabase from "../../api/supabase";
 import VolunteerSidebar from "../../components/volunteer/VolunteerSidebar";
-import { useUser } from "../../authentication/useUser";
+
 import Spinner from "../../components/Spinner";
 import { Button } from "../../shadcn/button";
 import {
@@ -20,7 +20,10 @@ import AnnouncementCard from "../../components/volunteer/post/AnnouncementCard";
 import AnnouncementForm from "../../components/volunteer/post/AnnouncementForm";
 import AnnouncementEdit from "../../components/volunteer/post/AnnouncementEdit"; // Import the edit component
 
+import { useUser } from "@/context/UserContext";
+
 export default function VolunteerAnnouncements() {
+  const { userData } = useUser(); // Get user data and loggedIn state from context
   const [groupId, setGroupId] = useState(null);
   const [userId, setUserId] = useState(null);
   const [groupData, setGroupData] = useState(null);
@@ -38,8 +41,6 @@ export default function VolunteerAnnouncements() {
   const [visibleCount, setVisibleCount] = useState(10); // For pagination
   const [uploadedImage, setUploadedImage] = useState(null); // State for the uploaded image
 
-  const { user } = useUser();
-  const { userData, loading: userLoading, error: userError } = useUserData();
   const {
     announcements,
     loading: announcementsLoading,
@@ -235,7 +236,6 @@ export default function VolunteerAnnouncements() {
     }
   };
 
-  // New function to handle editing announcements
   const handleEdit = async (announcement) => {
     try {
       const { error } = await supabase
@@ -244,6 +244,7 @@ export default function VolunteerAnnouncements() {
           post_content: announcement.post_content,
           post_header: announcement.post_header,
           edited: true,
+          public: announcement.privacy === "public", // Set `public` based on the selected privacy option
         })
         .eq("post_id", announcement.post_id);
 
